@@ -1,16 +1,17 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
-import { ArrowRight } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useForm } from 'react-hook-form';
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useForm } from 'react-hook-form';
 
-import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator"
+import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator";
+import { trpc } from "@/trpc/client";
 
 const Page = () => {
     const {
@@ -21,10 +22,10 @@ const Page = () => {
         resolver: zodResolver(AuthCredentialsValidator),
     })
 
+    const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({})
+
     const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-        // TODO: Send Data to the Server
-        console.log(`${email}:${password}`);
-        
+        mutate({ email, password })       
     }
 
     return (
@@ -52,7 +53,6 @@ const Page = () => {
                                             "focus-visible:ring-red-500": errors.email
                                         })}
                                         placeholder="you@example.com"
-                                        type="email"
                                         autoComplete="off"
                                     />
                                 </div>

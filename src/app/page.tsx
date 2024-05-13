@@ -1,13 +1,13 @@
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper'
 import { ProductReel } from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { ArrowDownToLine, Headset, RefreshCcw } from 'lucide-react'
+import { ArrowDownToLine, Headphones, RefreshCcw } from 'lucide-react'
 import Link from 'next/link'
 
 const perks = [
   { name: "Instant Delivery", Icon: ArrowDownToLine, description: "Get your product delivered to your email in seconds and download them right away." },
   { name: "Security Updates", Icon: RefreshCcw, description: "Stay ahead of the game with instant updates. Our cheats adapt swiftly to game patches, ensuring you experience uninterrupted gameplay." },
-  { name: "Customer Support", Icon: Headset, description: "Gain access to a dedicated support channel, offering a premium support experience." },
+  { name: "Customer Support", Icon: Headphones, description: "Gain access to a dedicated support channel, offering a premium support experience." },
 ]
 
 export default function Home() {

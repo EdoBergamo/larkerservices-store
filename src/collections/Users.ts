@@ -1,11 +1,16 @@
 import { CollectionConfig } from "payload/types";
+import { VerifyEmailHtml } from '../components/emails/verify-email'
 
 export const Users: CollectionConfig = {
     slug: "users",
     auth: {
         verify: {
             generateEmailHTML: ({ token }) => {
-                return `<a href="${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}">Verify Account</a>`
+                return VerifyEmailHtml({
+                    actionLabel: "verify your account",
+                    buttonText: "Verify Account",
+                    href: `${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}`
+                })
             }
         }
     },

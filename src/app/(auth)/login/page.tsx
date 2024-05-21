@@ -68,7 +68,7 @@ const Page = () => {
         signIn({ email, password })
     }
 
-    const resellers = true;
+    const resellers = false;
 
     return (
         <>
@@ -109,7 +109,7 @@ const Page = () => {
                                         className={cn({
                                             "focus-visible:ring-red-500": errors.password
                                         })}
-                                        placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                                        placeholder="••••••••"
                                         type="password"
                                         autoComplete="off"
                                     />

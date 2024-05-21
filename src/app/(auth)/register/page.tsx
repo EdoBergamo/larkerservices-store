@@ -49,7 +49,7 @@ const Page = () => {
     })
 
     const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-        mutate({ email, password })       
+        mutate({ email, password })
     }
 
     return (
@@ -91,7 +91,7 @@ const Page = () => {
                                         className={cn({
                                             "focus-visible:ring-red-500": errors.password
                                         })}
-                                        placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                                        placeholder="••••••••"
                                         type="password"
                                         autoComplete="off"
                                     />

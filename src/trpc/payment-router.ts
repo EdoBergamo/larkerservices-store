@@ -47,8 +47,8 @@ export const paymentRouter = router({
 
         try {
             const stripeSession = await stripe.checkout.sessions.create({
-                success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
-                cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
+                success_url: `https://larker.services/thank-you?orderId=${order.id}`,
+                cancel_url: `https://larker.services/cart`,
                 payment_method_types: ['card', 'paypal'],
                 mode: 'payment',
                 metadata: {
@@ -64,7 +64,7 @@ export const paymentRouter = router({
             return { url: null }
         }
     }),
-    pollOrderStatus: privateProcedure.input(z.object({ orderId: z.string()})).query(async ({ input }) => {
+    pollOrderStatus: privateProcedure.input(z.object({ orderId: z.string() })).query(async ({ input }) => {
         const { orderId } = input
         const payload = await getPayloadClient()
 

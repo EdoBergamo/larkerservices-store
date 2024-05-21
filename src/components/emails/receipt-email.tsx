@@ -115,7 +115,7 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                                         </Text>
                                     ) : null}
                                     <Link
-                                        href={`${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${orderId}`}
+                                        href={`https://larker.services/thank-you?orderId=${orderId}`}
                                         style={productLink}>
                                         Download Asset
                                     </Link>

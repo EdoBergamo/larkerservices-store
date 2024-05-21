@@ -15,7 +15,7 @@ import path from "path";
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-const createContext = ({req, res}: trpcExpress.CreateExpressContextOptions) => ({req, res})
+const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({ req, res })
 
 export type ExpressContext = inferAsyncReturnType<typeof createContext>
 export type WebhookRequest = IncomingMessage & { rawBody: Buffer };
@@ -61,7 +61,7 @@ const start = async () => {
         payload.logger.info('Next.js Started')
 
         app.listen(PORT, async () => {
-            payload.logger.info(`NextJS App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`)
+            payload.logger.info(`NextJS App URL: https://larker.services`)
         })
     })
 }

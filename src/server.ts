@@ -1,4 +1,5 @@
 import express from "express"
+import cors from 'cors'
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
 
@@ -13,6 +14,9 @@ import nextBuild from "next/dist/build"
 import path from "path";
 
 const app = express();
+
+app.use(cors())
+
 const PORT = Number(process.env.PORT) || 3000;
 
 const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({ req, res })

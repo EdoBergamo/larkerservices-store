@@ -3,12 +3,13 @@ import { PRODUCT_CATEGORY } from "../../config";
 import { CollectionConfig } from "payload/types";
 import { Product } from "../../payload-types";
 import { stripe } from "../../lib/stripe";
+import { Warehouse } from "../Warehouses"; // Importa la collezione Warehouse
 
 const addUser: BeforeChangeHook<Product> = async ({ req, data }) => {
-    const user = req.user
+    const user = req.user;
 
-    return {...data, user: user.id }
-}
+    return { ...data, user: user.id };
+};
 
 export const Products: CollectionConfig = {
     slug: "products",
@@ -21,41 +22,41 @@ export const Products: CollectionConfig = {
             addUser,
             async (args) => {
                 if (args.operation === "create") {
-                    const data = args.data as Product
+                    const data = args.data as Product;
 
                     const createdProduct = await stripe.products.create({
                         name: data.name,
                         default_price_data: {
                             currency: "EUR",
-                            unit_amount: Math.round(data.price * 100)
-                        }
-                    })
+                            unit_amount: Math.round(data.price * 100),
+                        },
+                    });
 
                     const updated: Product = {
                         ...data,
                         stripeId: createdProduct.id,
-                        priceId: createdProduct.default_price as string
-                    }
+                        priceId: createdProduct.default_price as string,
+                    };
 
-                    return updated
+                    return updated;
                 } else if (args.operation === "update") {
-                    const data = args.data as Product
+                    const data = args.data as Product;
 
                     const updatedProduct = await stripe.products.update(data.stripeId!, {
                         name: data.name,
-                        default_price: data.priceId!
-                    })
+                        default_price: data.priceId!,
+                    });
 
                     const updated: Product = {
                         ...data,
                         stripeId: updatedProduct.id,
-                        priceId: updatedProduct.default_price as string
-                    }
+                        priceId: updatedProduct.default_price as string,
+                    };
 
-                    return updated
-                } 
-            }
-        ]
+                    return updated;
+                }
+            },
+        ],
     },
     fields: [
         {
@@ -65,19 +66,19 @@ export const Products: CollectionConfig = {
             required: true,
             hasMany: false,
             admin: {
-                condition: () => false
-            }
+                condition: () => false,
+            },
         },
         {
             name: "name",
             label: "Name",
             type: "text",
-            required: true
+            required: true,
         },
         {
             name: "description",
             label: "Description",
-            type: "textarea", // TODO: Change to richText
+            type: "textarea",
         },
         {
             name: "price",
@@ -91,16 +92,16 @@ export const Products: CollectionConfig = {
             name: "category",
             label: "Category",
             type: "select",
-            options: PRODUCT_CATEGORY.map(({label, value}) => ({label, value})),
+            options: PRODUCT_CATEGORY.map(({ label, value }) => ({ label, value })),
             required: true,
         },
         {
-            name: 'product_files',
+            name: "product_files",
             label: "Product File",
             type: "relationship",
             required: true,
             relationTo: "product_file",
-            hasMany: false
+            hasMany: false,
         },
         {
             name: "approvedForSale",
@@ -124,8 +125,8 @@ export const Products: CollectionConfig = {
                 {
                     label: "Denied",
                     value: "denied",
-                }
-            ]
+                },
+            ],
         },
         {
             name: "priceId",
@@ -137,7 +138,7 @@ export const Products: CollectionConfig = {
             type: "text",
             admin: {
                 hidden: true,
-            }
+            },
         },
         {
             name: "stripeId",
@@ -149,7 +150,7 @@ export const Products: CollectionConfig = {
             type: "text",
             admin: {
                 hidden: true,
-            } 
+            },
         },
         {
             name: "images",
@@ -160,16 +161,26 @@ export const Products: CollectionConfig = {
             required: true,
             labels: {
                 singular: "Image",
-                plural: "Images"
+                plural: "Images",
             },
             fields: [
                 {
                     name: "image",
                     type: "upload",
                     relationTo: "media",
-                    required: true
+                    required: true,
                 },
             ],
-        }
-    ]
-}
+        },
+        {
+            name: "warehouse",
+            label: "Warehouse",
+            type: "relationship",
+            relationTo: "warehouse",
+            hasMany: false,
+            required: false, // Optional, but can be set to true if every product must have a warehouse
+        },
+    ],
+};
+
+export default Products;

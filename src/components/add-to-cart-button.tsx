@@ -5,7 +5,7 @@ import { Button } from "./ui/button"
 import { useCart } from "@/hooks/use-cart"
 import { Product } from "@/payload-types"
 
-export const AddToCartButton = ({ product }: { product: Product }) => {
+export const AddToCartButton = ({ product, isDisabled }: { product: Product, isDisabled: boolean }) => {
     const { addItem } = useCart();
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
@@ -16,7 +16,7 @@ export const AddToCartButton = ({ product }: { product: Product }) => {
 
         return () => clearTimeout(timeout)
     }, [isSuccess])
-    
+
     return (
         <Button
             onClick={() => {
@@ -25,9 +25,11 @@ export const AddToCartButton = ({ product }: { product: Product }) => {
             }}
             size='lg'
             className="w-full"
-            disabled={isSuccess}
+            disabled={isSuccess || isDisabled}
         >
-            {isSuccess ? "Added!" : "Add to Cart"}
+            {isDisabled && "Not in Stock"}
+            {isSuccess && "Added!"}
+            {!isSuccess && !isDisabled && "Add to Cart"}
         </Button>
     )
 }

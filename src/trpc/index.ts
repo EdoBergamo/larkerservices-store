@@ -21,7 +21,7 @@ export const appRouter = router({
 
         const parsedQueryOpts: Record<string, { equals: string }> = {}
 
-        Object.entries(queryOpts).forEach(([ key, value ]) => {
+        Object.entries(queryOpts).forEach(([key, value]) => {
             parsedQueryOpts[key] = {
                 equals: value,
             }
@@ -47,7 +47,43 @@ export const appRouter = router({
             items,
             nextPage: hasNextPage ? nextPage : null
         }
+    }),
+
+    getStockLicenses: publicProcedure.query(async () => {
+        const payload = await getPayloadClient();
+
+        const { docs: products } = await payload.find({
+            collection: 'products',
+            depth: 1
+        });
+
+        const stockLicenses: Record<string, string[]> = {};
+
+        for (const product of products) {
+            const productId = product.id;
+
+            const { docs: warehouses } = await payload.find({
+                collection: 'warehouse',
+                where: {
+                    product: {
+                        equals: productId
+                    }
+                },
+                depth: 1
+            });
+
+            if (warehouses.length > 0) {
+                const warehouse = warehouses[0];
+                const keys = warehouse.stock?.split('\n').map(key => key.trim()).filter(key => key !== '') ?? [];
+                if (keys.length > 0) {
+                    stockLicenses[productId.toString()] = keys;
+                }
+            }
+        }
+
+        return stockLicenses;
     })
+
 })
 
 export type AppRouter = typeof appRouter

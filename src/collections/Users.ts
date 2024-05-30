@@ -9,7 +9,7 @@ export const Users: CollectionConfig = {
                 return VerifyEmailHtml({
                     actionLabel: "verify your account",
                     buttonText: "Verify Account",
-                    href: `https://larker.services/verify-email?token=${token}`
+                    href: `http://localhost:3000/verify-email?token=${token}`
                 })
             }
         }

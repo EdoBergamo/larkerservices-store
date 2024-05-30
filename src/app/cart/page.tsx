@@ -16,6 +16,8 @@ const Page = () => {
 
     const router = useRouter()
 
+    const { data: licensesData } = trpc.getStockLicenses.useQuery();
+
     const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
         onSuccess: ({ url }) => {
             if (url) router.push(url)
@@ -25,6 +27,13 @@ const Page = () => {
     const productIds = items.map(({ product }) => product.id)
 
     const [isMounted, setIsMounted] = useState<boolean>(false)
+    const [isStockAvailable, setIsStockAvailable] = useState<Record<string, string[]>>({});
+
+    useEffect(() => {
+        if (licensesData) {
+            setIsStockAvailable(licensesData);
+        }
+    }, [licensesData]);
 
     useEffect(() => {
         setIsMounted(true)
@@ -145,9 +154,9 @@ const Page = () => {
                         </div>
 
                         <div className="mt-6">
-                            <Button className="w-full" size='lg' disabled={isLoading || items.length === 0} onClick={() => createCheckoutSession({ productIds })}>
-                                {isLoading && <Loader2 className="w-4 h-4 animate-spin mr-1.5" /> }
-                                Checkout
+                            <Button className="w-full" size='lg' disabled={isLoading || items.length === 0 || (isStockAvailable[productIds[0]]?.length ?? 0) === 0} onClick={() => createCheckoutSession({ productIds })}>
+                                {isLoading && <Loader2 className="w-4 h-4 animate-spin mr-1.5" />}
+                                {(isStockAvailable[productIds[0]]?.length ?? 0) === 0 ? 'Not In Stock' : 'Checkout'}
                             </Button>
                         </div>
                     </section>

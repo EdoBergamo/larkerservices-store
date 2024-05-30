@@ -13,6 +13,7 @@ export interface Config {
     media: Media;
     product_file: ProductFile;
     orders: Order;
+    warehouse: Warehouse;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -57,6 +58,7 @@ export interface Product {
     image: string | Media;
     id?: string | null;
   }[];
+  warehouse?: (string | null) | Warehouse;
   updatedAt: string;
   createdAt: string;
 }
@@ -117,6 +119,18 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "warehouse".
+ */
+export interface Warehouse {
+  id: string;
+  name: string;
+  stock: string;
+  product: string | Product;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

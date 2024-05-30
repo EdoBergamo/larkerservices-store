@@ -68,7 +68,7 @@ export const ProductFile: CollectionConfig = {
     upload: {
         staticURL: "/product_files",
         staticDir: 'product_files',
-        mimeTypes: ['image/*', "font/*", 'application/postscript']
+        mimeTypes: ['image/*'],
     },
     fields: [
         {

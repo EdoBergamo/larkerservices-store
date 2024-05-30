@@ -24,9 +24,11 @@ export const UserAccountNav = ({ user }: { user: User }) => {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem asChild>
-                    <Link href='/sell'>Reseller Dashboard</Link>
-                </DropdownMenuItem>
+                {user.role === 'admin' && (
+                    <DropdownMenuItem asChild>
+                        <Link href='/sell'>Reseller Dashboard</Link>
+                    </DropdownMenuItem>
+                )}
 
                 <DropdownMenuItem className="cursor-pointer" onClick={signOut}>
                     Logout

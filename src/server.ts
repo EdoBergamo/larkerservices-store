@@ -65,7 +65,7 @@ const start = async () => {
         payload.logger.info('Next.js Started')
 
         app.listen(PORT, async () => {
-            payload.logger.info(`NextJS App URL: https://larker.services`)
+            payload.logger.info(`NextJS App URL: http://localhost:3000`)
         })
     })
 }

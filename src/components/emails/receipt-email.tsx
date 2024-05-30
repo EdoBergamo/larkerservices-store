@@ -23,10 +23,11 @@ interface ReceiptEmailProps {
     email: string;
     date: Date;
     orderId: string;
-    products: Product[]
+    products: Product[];
+    licenseKey: string
 }
 
-export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailProps) => {
+export const ReceiptEmail = ({ date, email, orderId, products, licenseKey }: ReceiptEmailProps) => {
     const total = products.reduce((acc, curr) => acc + curr.price, 0) + 0
 
     return (
@@ -115,10 +116,13 @@ export const ReceiptEmail = ({ date, email, orderId, products }: ReceiptEmailPro
                                         </Text>
                                     ) : null}
                                     <Link
-                                        href={`https://larker.services/thank-you?orderId=${orderId}`}
+                                        href={`http://localhost:3000/thank-you?orderId=${orderId}`}
                                         style={productLink}>
-                                        Download Asset
+                                        Download Loader
                                     </Link>
+                                    <Text>
+                                        <p>License Key: {licenseKey}</p>
+                                    </Text>
                                 </Column>
 
                                 <Column

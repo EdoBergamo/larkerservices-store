@@ -36,6 +36,19 @@ const Page = async ({ params }: PageProps) => {
 
     if (!product) return notFound()
 
+    const { docs: warehouses } = await payload.find({
+        collection: 'warehouse',
+        limit: 1,
+        where: {
+            product: {
+                equals: productId
+            }
+        }
+    })
+
+    const warehouse = warehouses[0]
+    const hasLicenseKeys = warehouse?.stock?.split('\n').filter(key => key.trim() !== '').length > 0
+
     const BREADCRUMBS = [
         { id: 1, name: "Home", href: "/" },
         { id: 2, name: "Products", href: "/products" },
@@ -104,12 +117,12 @@ const Page = async ({ params }: PageProps) => {
                     <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
                         <div>
                             <div className="mt-10">
-                                <AddToCartButton product={product} />
+                                <AddToCartButton product={product} isDisabled={!hasLicenseKeys} />
                             </div>
                             <div className="mt-6 text-center">
                                 <div className="group inline-flex text-sm font-medium">
                                     <Shield aria-hidden='true' className="mr-2 h-5 w-5 flex-shrink-0 text-gray-400" />
-                                    <span className="text-muted-foreground">Asd</span>
+                                    <span className="text-muted-foreground">No Refund Available</span>
                                 </div>
                             </div>
                         </div>

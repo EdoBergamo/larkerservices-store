@@ -47,8 +47,8 @@ export const paymentRouter = router({
 
         try {
             const stripeSession = await stripe.checkout.sessions.create({
-                success_url: `https://larker.services/thank-you?orderId=${order.id}`,
-                cancel_url: `https://larker.services/cart`,
+                success_url: `http://localhost:3000/thank-you?orderId=${order.id}`,
+                cancel_url: `http://localhost:3000/cart`,
                 payment_method_types: ['card', 'paypal'],
                 mode: 'payment',
                 metadata: {

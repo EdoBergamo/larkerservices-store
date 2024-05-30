@@ -9,6 +9,7 @@ import { Products } from "./collections/Products/Products";
 import { Media } from "./collections/Media";
 import { ProductFile } from "./collections/ProductFile";
 import { Orders } from "./collections/Orders";
+import Warehouse from "./collections/Warehouses";
 
 dotenv.config({
     path: path.resolve(__dirname, '../.env')
@@ -16,7 +17,7 @@ dotenv.config({
 
 export default buildConfig({
     serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
-    collections: [Users, Products, Media, ProductFile, Orders],
+    collections: [Users, Products, Media, ProductFile, Orders, Warehouse],
     routes: {
         admin: '/sell'
     },
